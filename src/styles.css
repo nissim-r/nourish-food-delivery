@@ -1,0 +1,105 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Fraunces", ui-serif, Georgia, serif;
+
+  --color-coral-50: #fef5f3;
+  --color-coral-100: #fde8e4;
+  --color-coral-200: #fbd5cd;
+  --color-coral-300: #f7b3a5;
+  --color-coral-400: #f08a74;
+  --color-coral-500: #e85d4c;
+  --color-coral-600: #d44332;
+  --color-coral-700: #b23426;
+  --color-coral-800: #942e24;
+  --color-coral-900: #7b2b23;
+
+  --color-cream-50: #fffdf9;
+  --color-cream-100: #fbf7f0;
+  --color-cream-200: #f5ede0;
+  --color-cream-300: #ebe0cc;
+
+  --color-charcoal-700: #3d3835;
+  --color-charcoal-800: #2a2624;
+  --color-charcoal-900: #1a1715;
+
+  --color-sage-500: #6b8f71;
+  --color-sage-600: #557a5b;
+
+  --shadow-card: 0 2px 12px -2px rgb(26 23 21 / 0.08), 0 1px 3px rgb(26 23 21 / 0.04);
+  --shadow-float: 0 8px 30px -6px rgb(26 23 21 / 0.12), 0 4px 12px -2px rgb(232 93 76 / 0.08);
+  --shadow-nav: 0 -4px 24px -4px rgb(26 23 21 / 0.1);
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background: var(--color-cream-100);
+  color: var(--color-charcoal-900);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Hide scrollbar on category chips but keep scroll */
+.chip-scroll {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.chip-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* Safe area for bottom nav on mobile */
+.pb-safe {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+
+.bottom-nav-safe {
+  padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+}
+
+/* Soft press feedback */
+.pressable:active {
+  transform: scale(0.97);
+}
+
+/* Quantity button tap */
+.qty-btn:active {
+  transform: scale(0.9);
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.35s ease-out both;
+}
+
+@keyframes pulse-soft {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 2s ease-in-out infinite;
+}
