@@ -21,25 +21,19 @@ function statusLabel(status: Order["status"]) {
   }
 }
 
+function withLiveStatus(order: Order): Order {
+  if (order.status === "delivered" || order.status === "cancelled") {
+    return order;
+  }
+  const ageMin = (Date.now() - new Date(order.createdAt).getTime()) / 60000;
+  if (ageMin > order.etaMinutes) return { ...order, status: "delivered" };
+  if (ageMin > 8) return { ...order, status: "on_the_way" };
+  return order;
+}
+
 function OrdersPage() {
   const orders = useCartStore((s) => s.orders);
-  const active = orders.filter((o) =>
-    o.status === "preparing" || o.status === "on_the_way",
-  );
-  const past = orders.filter(
-    (o) => o.status === "delivered" || o.status === "cancelled",
-  );
-
-  // Promote older "preparing" to visual on_the_way based on time for demo
-  const displayOrders = orders.map((o) => {
-    if (o.status !== "preparing") return o;
-    const ageMin =
-      (Date.now() - new Date(o.createdAt).getTime()) / 60000;
-    if (ageMin > 8) return { ...o, status: "on_the_way" as const };
-    if (ageMin > o.etaMinutes) return { ...o, status: "delivered" as const };
-    return o;
-  });
-
+  const displayOrders = orders.map(withLiveStatus);
   const activeDisplay = displayOrders.filter(
     (o) => o.status === "preparing" || o.status === "on_the_way",
   );
@@ -95,9 +89,6 @@ function OrdersPage() {
           </div>
         </section>
       )}
-
-      {/* keep refs used */}
-      <span className="hidden">{active.length + past.length}</span>
     </div>
   );
 }
